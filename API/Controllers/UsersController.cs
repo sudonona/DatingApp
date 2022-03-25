@@ -3,15 +3,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using API.entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")] //strat with api /controller
-
-    public class UsersController : ControllerBase
+    public class UsersController : BaseApiController
     {
         private readonly DataContext _context;
         public UsersController(DataContext context)
@@ -21,6 +19,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         //Vogliamo render il nostro codice asincrono aggiungendo dei TASKS (THREAD) 
         //Per assegnare ad ogni operazione un tempo determinato per essere svolto 
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
@@ -33,6 +32,7 @@ namespace API.Controllers
             //return _context.Users.ToList();
         }
 
+        [Authorize]
         // percorso api/users/id
          [HttpGet("{Id}")]
         public async Task<ActionResult<AppUser>> GetUsers(int id)
