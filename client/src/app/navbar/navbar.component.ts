@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { User } from '../_models/user';
+import { Router } from '@angular/router';
+import { Toast, ToastrService } from 'ngx-toastr';
 import { AccountService } from '../_services/account.service';
 
 @Component({
@@ -11,38 +11,24 @@ import { AccountService } from '../_services/account.service';
 export class NavbarComponent implements OnInit {
 
   model : any = {}
-  //loggedIn : boolean ; cambiamo metodo ed usiamo l'ogetto pipe
-
-  //currentUser$ : Observable<User>;
-  //Inseriamo il nostro servizio all'interno di questa componente nav usando il costruttore
-  constructor(public accountService: AccountService) {}
+  
+  constructor(public accountService: AccountService, private router: Router , private toastr : ToastrService) {}
 
   ngOnInit(): void {
-    //this.getCurrentUser();
-    //this.currentUser$ = this.accountService.currentUser$;
+
   }
 
   login () {
     this.accountService.login(this.model).subscribe(response => {
-        console.log(response);
-       // this.loggedIn = true;
+       this.router.navigateByUrl('/members');
     } , error => {
         console.log(error);
+        this.toastr.error(error.error);
     })
   }
 
   logout(){
       this.accountService.logout();
-   // this.loggedIn = false;
+      this.router.navigateByUrl('/');
   }
-
- /* getCurrentUser(){
-
-    this.accountService.currentUser$.subscribe(user => {
-      this.loggedIn = !!user;// i doppi punti exclamativi trasformano il nostro oggetto in un billion
-    } , error => {
-      console.log(error);
-    })
-  } Non abbiamo piu bisogno do qiesto metodo ormai...*/
-
 }

@@ -1,20 +1,29 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">Dating Application</a>
+        <a class="navbar-brand active" routerLink='/' routerLinkActive="active">Dating Application</a>
       </div>
       <div id="navbar" class="navbar-collapse collapse" >
-        <ul class="nav navbar-nav navbar-right" *ngIf="accountService.currentUser$ |async">
-          <li><a href="#">Matches</a></li>
-          <li><a href="#">Lists</a></li>
-          <li><a href="#">Messages</a></li>
+        <ul class="nav navbar-nav navbar-right"  >
+            <ng-container *ngIf="accountService.currentUser$ |async">
+              <li class = "nav-item">
+                <a class="nav-link" routerLink='/members' routerLinkActive="active">Matches</a>
+              </li>
+              <li class = "nav-item">
+                <a class="nav-link" routerLink='/lists' routerLinkActive="active">Lists</a>
+              </li>
+              <li class = "nav-item">
+                <a class="nav-link" routerLink='/messages' routerLinkActive="active">Messages</a>
+              </li>
+            </ng-container>
         </ul>
-          <div class="dropdown" *ngIf="accountService.currentUser$ |async" dropdown>
-            <button class = " dropdown-toggle" dropdownToggle style = "margin-top:10px;"> Welcome User <span class="caret"></span></button>
-              <ul class="dropdown-menu" *dropdownMenu style = "margin-top:10px;">
-                <li><a role="menuitem"class="dropdown-item" href="#">Modifica Profilo</a></li>
+        
+          <div class="dropdown" *ngIf="(accountService.currentUser$ |async) as user" dropdown>
+            <button class = "dropdown-toggle text-light" dropdownToggle style="margin-top:10px ;"> Welcome {{user.username | titlecase}} </button>
+              <ul class="dropdown-menu" *dropdownMenu style="margin-top:10px ;">
+                <li class = "nav-item"><a role="menuitem"class="dropdown-item" href="#">Modifica Profilo</a></li>
                 <div class="dropdown-divider"></div>
-                <li><a role="menuitem"class="dropdown-item" href ="#" (click)="logout()">Logout</a></li>
+                <li class = "nav-item"><a role="menuitem"class="dropdown-item" href ="#" (click)="logout()">Logout</a></li>
               </ul>
             </div>
 
@@ -38,3 +47,5 @@
       </div>
     </div>
   </nav>
+
+  <!--*ngIf="accountService.currentUser$ |async" ci permette di controllare se l'utente ha fatto il login prima di continuare-->
