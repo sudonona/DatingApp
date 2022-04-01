@@ -8,7 +8,7 @@ namespace API.DTOs
         public string Username { get; set; }
   
         [Required] // Cosi non potra essere vuoto
-        //[RegularExpression] // Essendo un password deve rispettare una espressione regolare
+        [StringLength(8, MinimumLength = 4)]//la lunghezza della password max 8 min 4  //[RegularExpression] // Essendo un password deve rispettare una espressione regolare
         public string Password{ get; set; }
     }
 }
